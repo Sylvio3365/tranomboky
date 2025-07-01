@@ -12,8 +12,17 @@ public class PenaliteServiceImpl implements PenaliteService {
     @Autowired
     private PenaliteRepository repo;
 
-    public List<Penalite> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Penalite findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Penalite> findAll() {
+        return repo.findAll().stream()
+                .filter(p -> p.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Penalite findById(Integer id) {
+        return repo.findById(id)
+                .filter(p -> p.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Penalite save(Penalite obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Penalite obj = repo.findById(id).orElse(null);

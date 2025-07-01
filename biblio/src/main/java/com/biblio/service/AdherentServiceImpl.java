@@ -12,8 +12,17 @@ public class AdherentServiceImpl implements AdherentService {
     @Autowired
     private AdherentRepository repo;
 
-    public List<Adherent> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Adherent findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Adherent> findAll() {
+        return repo.findAll().stream()
+                .filter(a -> a.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Adherent findById(Integer id) {
+        return repo.findById(id)
+                .filter(a -> a.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Adherent save(Adherent obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Adherent obj = repo.findById(id).orElse(null);

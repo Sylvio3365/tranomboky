@@ -12,8 +12,17 @@ public class TypepretServiceImpl implements TypepretService {
     @Autowired
     private TypepretRepository repo;
 
-    public List<Typepret> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Typepret findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Typepret> findAll() {
+        return repo.findAll().stream()
+                .filter(t -> t.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Typepret findById(Integer id) {
+        return repo.findById(id)
+                .filter(t -> t.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Typepret save(Typepret obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Typepret obj = repo.findById(id).orElse(null);

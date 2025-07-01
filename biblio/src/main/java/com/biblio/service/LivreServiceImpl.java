@@ -12,8 +12,17 @@ public class LivreServiceImpl implements LivreService {
     @Autowired
     private LivreRepository repo;
 
-    public List<Livre> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Livre findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Livre> findAll() {
+        return repo.findAll().stream()
+                .filter(l -> l.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Livre findById(Integer id) {
+        return repo.findById(id)
+                .filter(l -> l.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Livre save(Livre obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Livre obj = repo.findById(id).orElse(null);
