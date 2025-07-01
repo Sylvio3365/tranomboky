@@ -3,7 +3,7 @@ CREATE TABLE
         id_livre SERIAL PRIMARY KEY,
         titre VARCHAR(100) NOT NULL,
         auteur VARCHAR(100),
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
@@ -11,21 +11,21 @@ CREATE TABLE
         id_exemplaire SERIAL PRIMARY KEY,
         code VARCHAR(50) NOT NULL UNIQUE,
         id_livre INT NOT NULL REFERENCES Livre (id_livre),
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
     Etat (
         id_etat SERIAL PRIMARY KEY,
         nom VARCHAR(50) NOT NULL UNIQUE,
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
     Restriction (
         id_restriction SERIAL PRIMARY KEY,
         age_min INT NOT NULL,
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
@@ -36,14 +36,14 @@ CREATE TABLE
         nb_livre_preter_max INT NOT NULL,
         nb_prolongement_pret_max INT NOT NULL,
         nb_jour_prolongement_max INT NOT NULL,
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
     Profil (
         id_profil SERIAL PRIMARY KEY,
         nom VARCHAR(50) NOT NULL UNIQUE,
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
@@ -51,21 +51,21 @@ CREATE TABLE
         id_penalite SERIAL PRIMARY KEY,
         nb_jour_de_penalite INT NOT NULL,
         motif VARCHAR(100),
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
     TypePret (
         id_type_pret SERIAL PRIMARY KEY,
         nom VARCHAR(50) NOT NULL UNIQUE,
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
     Role (
         id_role SERIAL PRIMARY KEY,
         nom VARCHAR(50) NOT NULL UNIQUE,
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
@@ -74,7 +74,7 @@ CREATE TABLE
         username VARCHAR(50) NOT NULL UNIQUE,
         mdp VARCHAR(50) NOT NULL,
         id_role INT NOT NULL REFERENCES Role (id_role),
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 CREATE TABLE
@@ -85,7 +85,7 @@ CREATE TABLE
         date_de_naissance DATE NOT NULL,
         id_profil INT NOT NULL REFERENCES Profil (id_profil),
         id_utilisateur INT REFERENCES Utilisateur (id_utilisateur),
-        deleted_at TIMESTAMP
+        datedelete TIMESTAMP
     );
 
 -- (les autres tables restent inchangées, sauf si tu veux le soft delete aussi sur d'autres entités)

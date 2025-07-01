@@ -14,20 +14,20 @@ public class RoleServiceImpl implements RoleService {
 
     public List<Role> findAll() {
         return repo.findAll().stream()
-                .filter(r -> r.getDeleted_at() == null)
+                .filter(r -> r.getDatedelete() == null)
                 .toList();
     }
 
     public Role findById(Integer id) {
         return repo.findById(id)
-                .filter(r -> r.getDeleted_at() == null)
+                .filter(r -> r.getDatedelete() == null)
                 .orElse(null);
     }
     public Role save(Role obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Role obj = repo.findById(id).orElse(null);
         if(obj != null) {
-            obj.setDeleted_at(LocalDateTime.now());
+            obj.setDatedelete(LocalDateTime.now());
             repo.save(obj);
         }
     }

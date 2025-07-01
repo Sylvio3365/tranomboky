@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
 
 public interface EtatRepository extends JpaRepository<Etat, Integer> {
-    List<Etat> findByDeletedAtIsNull();
-    Optional<Etat> findByIdEtatAndDeletedAtIsNull(Integer idEtat);
+    List<Etat> findByDatedeleteIsNull();
+    Optional<Etat> findByIdEtatAndDatedeleteIsNull(Integer idEtat);
 }

@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
 
 public interface AdherentRepository extends JpaRepository<Adherent, Integer> {
-    // Le nom du champ dans la classe est "deleted_at" → Spring attend "DeletedAt"
+    // Le nom du champ dans la classe est "datedelete" → Spring attend "Datedelete"
     // en camelCase
-    List<Adherent> findByDeletedAtIsNull();
+    List<Adherent> findByDatedeleteIsNull();
 
-    Optional<Adherent> findByIdAdherentAndDeletedAtIsNull(Integer idAdherent);
+    Optional<Adherent> findByIdAdherentAndDatedeleteIsNull(Integer idAdherent);
 
 }

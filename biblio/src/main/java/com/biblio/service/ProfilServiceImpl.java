@@ -14,20 +14,20 @@ public class ProfilServiceImpl implements ProfilService {
 
     public List<Profil> findAll() {
         return repo.findAll().stream()
-                .filter(p -> p.getDeleted_at() == null)
+                .filter(p -> p.getDatedelete() == null)
                 .toList();
     }
 
     public Profil findById(Integer id) {
         return repo.findById(id)
-                .filter(p -> p.getDeleted_at() == null)
+                .filter(p -> p.getDatedelete() == null)
                 .orElse(null);
     }
     public Profil save(Profil obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Profil obj = repo.findById(id).orElse(null);
         if(obj != null) {
-            obj.setDeleted_at(LocalDateTime.now());
+            obj.setDatedelete(LocalDateTime.now());
             repo.save(obj);
         }
     }

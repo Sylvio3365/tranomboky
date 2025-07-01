@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
-    List<Role> findByDeletedAtIsNull();
-    Optional<Role> findByIdRoleAndDeletedAtIsNull(Integer idRole);
+    List<Role> findByDatedeleteIsNull();
+    Optional<Role> findByIdRoleAndDatedeleteIsNull(Integer idRole);
 }

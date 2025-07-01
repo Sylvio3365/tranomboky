@@ -14,20 +14,20 @@ public class AdherentServiceImpl implements AdherentService {
 
     public List<Adherent> findAll() {
         return repo.findAll().stream()
-                .filter(a -> a.getDeleted_at() == null)
+                .filter(a -> a.getDatedelete() == null)
                 .toList();
     }
 
     public Adherent findById(Integer id) {
         return repo.findById(id)
-                .filter(a -> a.getDeleted_at() == null)
+                .filter(a -> a.getDatedelete() == null)
                 .orElse(null);
     }
     public Adherent save(Adherent obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Adherent obj = repo.findById(id).orElse(null);
         if(obj != null) {
-            obj.setDeleted_at(LocalDateTime.now());
+            obj.setDatedelete(LocalDateTime.now());
             repo.save(obj);
         }
     }

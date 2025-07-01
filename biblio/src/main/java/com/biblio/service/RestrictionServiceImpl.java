@@ -14,20 +14,20 @@ public class RestrictionServiceImpl implements RestrictionService {
 
     public List<Restriction> findAll() {
         return repo.findAll().stream()
-                .filter(r -> r.getDeleted_at() == null)
+                .filter(r -> r.getDatedelete() == null)
                 .toList();
     }
 
     public Restriction findById(Integer id) {
         return repo.findById(id)
-                .filter(r -> r.getDeleted_at() == null)
+                .filter(r -> r.getDatedelete() == null)
                 .orElse(null);
     }
     public Restriction save(Restriction obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Restriction obj = repo.findById(id).orElse(null);
         if(obj != null) {
-            obj.setDeleted_at(LocalDateTime.now());
+            obj.setDatedelete(LocalDateTime.now());
             repo.save(obj);
         }
     }

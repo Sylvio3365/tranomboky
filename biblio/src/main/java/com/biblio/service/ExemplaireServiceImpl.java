@@ -14,20 +14,20 @@ public class ExemplaireServiceImpl implements ExemplaireService {
 
     public List<Exemplaire> findAll() {
         return repo.findAll().stream()
-                .filter(e -> e.getDeleted_at() == null)
+                .filter(e -> e.getDatedelete() == null)
                 .toList();
     }
 
     public Exemplaire findById(Integer id) {
         return repo.findById(id)
-                .filter(e -> e.getDeleted_at() == null)
+                .filter(e -> e.getDatedelete() == null)
                 .orElse(null);
     }
     public Exemplaire save(Exemplaire obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Exemplaire obj = repo.findById(id).orElse(null);
         if(obj != null) {
-            obj.setDeleted_at(LocalDateTime.now());
+            obj.setDatedelete(LocalDateTime.now());
             repo.save(obj);
         }
     }

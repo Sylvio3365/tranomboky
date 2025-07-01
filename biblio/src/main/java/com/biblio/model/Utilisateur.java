@@ -17,8 +17,8 @@ public class Utilisateur {
     private String mdp;
     @Column(name = "id_role")
     private Integer id_role;
-    @Column(name = "deleted_at")
-    private java.time.LocalDateTime deleted_at;
+    @Column(name = "datedelete")
+    private java.time.LocalDateTime datedelete;
 
     public Utilisateur() {}
     public Integer getId_utilisateur() { return id_utilisateur; }
@@ -29,6 +29,6 @@ public class Utilisateur {
     public void setMdp(String mdp) { this.mdp = mdp; }
     public Integer getId_role() { return id_role; }
     public void setId_role(Integer id_role) { this.id_role = id_role; }
-    public java.time.LocalDateTime getDeleted_at() { return deleted_at; }
-    public void setDeleted_at(java.time.LocalDateTime deleted_at) { this.deleted_at = deleted_at; }
+    public java.time.LocalDateTime getDatedelete() { return datedelete; }
+    public void setDatedelete(java.time.LocalDateTime datedelete) { this.datedelete = datedelete; }
 }

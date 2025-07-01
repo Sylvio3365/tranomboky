@@ -13,14 +13,14 @@ public class Etat {
     private Integer id_etat;
     @Column(name = "nom")
     private String nom;
-    @Column(name = "deleted_at")
-    private java.time.LocalDateTime deleted_at;
+    @Column(name = "datedelete")
+    private java.time.LocalDateTime datedelete;
 
     public Etat() {}
     public Integer getId_etat() { return id_etat; }
     public void setId_etat(Integer id_etat) { this.id_etat = id_etat; }
     public String getNom() { return nom; }
     public void setNom(String nom) { this.nom = nom; }
-    public java.time.LocalDateTime getDeleted_at() { return deleted_at; }
-    public void setDeleted_at(java.time.LocalDateTime deleted_at) { this.deleted_at = deleted_at; }
+    public java.time.LocalDateTime getDatedelete() { return datedelete; }
+    public void setDatedelete(java.time.LocalDateTime datedelete) { this.datedelete = datedelete; }
 }
