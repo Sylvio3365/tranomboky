@@ -7,9 +7,8 @@ import java.util.*;
 public interface AdherentRepository extends JpaRepository<Adherent, Integer> {
     // Le nom du champ dans la classe est "deleted_at" → Spring attend "DeletedAt"
     // en camelCase
-    // Il faut garder les underscores dans le nom de la méthode !
-    List<Adherent> findByDeleted_atIsNull();
+    List<Adherent> findByDeletedAtIsNull();
 
-    Optional<Adherent> findById_adherentAndDeleted_atIsNull(Integer id_adherent);
+    Optional<Adherent> findByIdAdherentAndDeletedAtIsNull(Integer idAdherent);
 
 }

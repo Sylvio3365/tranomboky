@@ -6,5 +6,5 @@ import java.util.*;
 
 public interface LivreRepository extends JpaRepository<Livre, Integer> {
     List<Livre> findByDeletedAtIsNull();
-    Optional<Livre> findByIdAndDeleted_atIsNull(Integer id);
+    Optional<Livre> findByIdLivreAndDeletedAtIsNull(Integer idLivre);
 }

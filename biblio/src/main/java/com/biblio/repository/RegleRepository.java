@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
 
 public interface RegleRepository extends JpaRepository<Regle, Integer> {
-    List<Regle> findByDeleted_atIsNull();
-    Optional<Regle> findByIdAndDeleted_atIsNull(Integer id);
+    List<Regle> findByDeletedAtIsNull();
+    Optional<Regle> findByIdRegleAndDeletedAtIsNull(Integer idRegle);
 }

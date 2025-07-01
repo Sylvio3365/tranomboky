@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
 
 public interface TypepretRepository extends JpaRepository<Typepret, Integer> {
-    List<Typepret> findByDeleted_atIsNull();
-    Optional<Typepret> findByIdAndDeleted_atIsNull(Integer id);
+    List<Typepret> findByDeletedAtIsNull();
+    Optional<Typepret> findByIdTypePretAndDeletedAtIsNull(Integer idTypePret);
 }
