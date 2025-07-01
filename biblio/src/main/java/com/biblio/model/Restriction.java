@@ -13,10 +13,14 @@ public class Restriction {
     private Integer id_restriction;
     @Column(name = "age_min")
     private Integer age_min;
+    @Column(name = "deleted_at")
+    private java.time.LocalDateTime deleted_at;
 
     public Restriction() {}
     public Integer getId_restriction() { return id_restriction; }
     public void setId_restriction(Integer id_restriction) { this.id_restriction = id_restriction; }
     public Integer getAge_min() { return age_min; }
     public void setAge_min(Integer age_min) { this.age_min = age_min; }
+    public java.time.LocalDateTime getDeleted_at() { return deleted_at; }
+    public void setDeleted_at(java.time.LocalDateTime deleted_at) { this.deleted_at = deleted_at; }
 }

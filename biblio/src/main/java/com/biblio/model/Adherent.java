@@ -19,6 +19,8 @@ public class Adherent {
     private Integer id_profil;
     @Column(name = "id_utilisateur")
     private Integer id_utilisateur;
+    @Column(name = "deleted_at")
+    private java.time.LocalDateTime deleted_at;
 
     public Adherent() {
     }
@@ -69,5 +71,13 @@ public class Adherent {
 
     public void setId_utilisateur(Integer id_utilisateur) {
         this.id_utilisateur = id_utilisateur;
+    }
+
+    public java.time.LocalDateTime getDeleted_at() {
+        return deleted_at;
+    }
+
+    public void setDeleted_at(java.time.LocalDateTime deleted_at) {
+        this.deleted_at = deleted_at;
     }
 }

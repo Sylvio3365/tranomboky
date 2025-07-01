@@ -15,6 +15,8 @@ public class Penalite {
     private Integer nb_jour_de_penalite;
     @Column(name = "motif")
     private String motif;
+    @Column(name = "deleted_at")
+    private java.time.LocalDateTime deleted_at;
 
     public Penalite() {}
     public Integer getId_penalite() { return id_penalite; }
@@ -23,4 +25,6 @@ public class Penalite {
     public void setNb_jour_de_penalite(Integer nb_jour_de_penalite) { this.nb_jour_de_penalite = nb_jour_de_penalite; }
     public String getMotif() { return motif; }
     public void setMotif(String motif) { this.motif = motif; }
+    public java.time.LocalDateTime getDeleted_at() { return deleted_at; }
+    public void setDeleted_at(java.time.LocalDateTime deleted_at) { this.deleted_at = deleted_at; }
 }
