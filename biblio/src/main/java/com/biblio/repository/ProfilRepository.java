@@ -6,5 +6,5 @@ import java.util.*;
 
 public interface ProfilRepository extends JpaRepository<Profil, Integer> {
     List<Profil> findByDatedeleteIsNull();
-    Optional<Profil> findByIdProfilAndDatedeleteIsNull(Integer idProfil);
+    Optional<Profil> findById_profilAndDatedeleteIsNull(Integer id_profil);
 }

@@ -6,5 +6,5 @@ import java.util.*;
 
 public interface PenaliteRepository extends JpaRepository<Penalite, Integer> {
     List<Penalite> findByDatedeleteIsNull();
-    Optional<Penalite> findByIdPenaliteAndDatedeleteIsNull(Integer idPenalite);
+    Optional<Penalite> findById_penaliteAndDatedeleteIsNull(Integer id_penalite);
 }

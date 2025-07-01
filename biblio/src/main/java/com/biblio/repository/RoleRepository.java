@@ -6,5 +6,5 @@ import java.util.*;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     List<Role> findByDatedeleteIsNull();
-    Optional<Role> findByIdRoleAndDatedeleteIsNull(Integer idRole);
+    Optional<Role> findById_roleAndDatedeleteIsNull(Integer id_role);
 }

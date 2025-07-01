@@ -6,5 +6,5 @@ import java.util.*;
 
 public interface TypepretRepository extends JpaRepository<Typepret, Integer> {
     List<Typepret> findByDatedeleteIsNull();
-    Optional<Typepret> findByIdTypePretAndDatedeleteIsNull(Integer idTypePret);
+    Optional<Typepret> findById_type_pretAndDatedeleteIsNull(Integer id_type_pret);
 }

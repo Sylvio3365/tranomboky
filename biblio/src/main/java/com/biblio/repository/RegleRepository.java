@@ -6,5 +6,5 @@ import java.util.*;
 
 public interface RegleRepository extends JpaRepository<Regle, Integer> {
     List<Regle> findByDatedeleteIsNull();
-    Optional<Regle> findByIdRegleAndDatedeleteIsNull(Integer idRegle);
+    Optional<Regle> findById_regleAndDatedeleteIsNull(Integer id_regle);
 }
