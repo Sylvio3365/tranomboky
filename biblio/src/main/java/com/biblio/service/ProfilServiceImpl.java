@@ -12,8 +12,17 @@ public class ProfilServiceImpl implements ProfilService {
     @Autowired
     private ProfilRepository repo;
 
-    public List<Profil> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Profil findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Profil> findAll() {
+        return repo.findAll().stream()
+                .filter(p -> p.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Profil findById(Integer id) {
+        return repo.findById(id)
+                .filter(p -> p.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Profil save(Profil obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Profil obj = repo.findById(id).orElse(null);

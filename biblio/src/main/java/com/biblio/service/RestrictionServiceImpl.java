@@ -12,8 +12,17 @@ public class RestrictionServiceImpl implements RestrictionService {
     @Autowired
     private RestrictionRepository repo;
 
-    public List<Restriction> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Restriction findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Restriction> findAll() {
+        return repo.findAll().stream()
+                .filter(r -> r.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Restriction findById(Integer id) {
+        return repo.findById(id)
+                .filter(r -> r.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Restriction save(Restriction obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Restriction obj = repo.findById(id).orElse(null);

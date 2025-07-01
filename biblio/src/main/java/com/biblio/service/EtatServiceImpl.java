@@ -12,8 +12,17 @@ public class EtatServiceImpl implements EtatService {
     @Autowired
     private EtatRepository repo;
 
-    public List<Etat> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Etat findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Etat> findAll() {
+        return repo.findAll().stream()
+                .filter(e -> e.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Etat findById(Integer id) {
+        return repo.findById(id)
+                .filter(e -> e.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Etat save(Etat obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Etat obj = repo.findById(id).orElse(null);

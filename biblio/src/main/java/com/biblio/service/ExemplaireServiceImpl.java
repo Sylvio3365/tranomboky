@@ -12,8 +12,17 @@ public class ExemplaireServiceImpl implements ExemplaireService {
     @Autowired
     private ExemplaireRepository repo;
 
-    public List<Exemplaire> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Exemplaire findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Exemplaire> findAll() {
+        return repo.findAll().stream()
+                .filter(e -> e.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Exemplaire findById(Integer id) {
+        return repo.findById(id)
+                .filter(e -> e.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Exemplaire save(Exemplaire obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Exemplaire obj = repo.findById(id).orElse(null);

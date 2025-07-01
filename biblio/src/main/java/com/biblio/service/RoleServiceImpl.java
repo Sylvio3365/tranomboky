@@ -12,8 +12,17 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleRepository repo;
 
-    public List<Role> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Role findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Role> findAll() {
+        return repo.findAll().stream()
+                .filter(r -> r.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Role findById(Integer id) {
+        return repo.findById(id)
+                .filter(r -> r.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Role save(Role obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Role obj = repo.findById(id).orElse(null);

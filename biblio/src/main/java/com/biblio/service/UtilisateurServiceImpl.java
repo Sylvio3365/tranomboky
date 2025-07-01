@@ -12,8 +12,17 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Autowired
     private UtilisateurRepository repo;
 
-    public List<Utilisateur> findAll() { return repo.findByDeleted_atIsNull(); }
-    public Utilisateur findById(Integer id) { return repo.findByIdAndDeleted_atIsNull(id).orElse(null); }
+    public List<Utilisateur> findAll() {
+        return repo.findAll().stream()
+                .filter(u -> u.getDeleted_at() == null)
+                .toList();
+    }
+
+    public Utilisateur findById(Integer id) {
+        return repo.findById(id)
+                .filter(u -> u.getDeleted_at() == null)
+                .orElse(null);
+    }
     public Utilisateur save(Utilisateur obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Utilisateur obj = repo.findById(id).orElse(null);
