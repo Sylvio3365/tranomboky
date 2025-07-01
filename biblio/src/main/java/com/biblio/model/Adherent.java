@@ -8,7 +8,7 @@ public class Adherent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_adherent")
-    private Integer id_adherent;
+    private Integer idAdherent;
     @Column(name = "nom")
     private String nom;
     @Column(name = "prenom")
@@ -25,16 +25,16 @@ public class Adherent {
     public Adherent() {
     }
 
-    public Integer getId_adherent() {
-        return id_adherent;
-    }
-
-    public void setId_adherent(Integer id_adherent) {
-        this.id_adherent = id_adherent;
-    }
-
     public String getNom() {
         return nom;
+    }
+
+    public Integer getIdAdherent() {
+        return idAdherent;
+    }
+
+    public void setIdAdherent(Integer idAdherent) {
+        this.idAdherent = idAdherent;
     }
 
     public void setNom(String nom) {

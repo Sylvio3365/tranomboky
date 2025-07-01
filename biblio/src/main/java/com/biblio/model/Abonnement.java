@@ -10,7 +10,16 @@ public class Abonnement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_abonnement")
-    private Integer id_abonnement;
+    private Integer idAbonnement;
+
+    public Integer getIdAbonnement() {
+        return idAbonnement;
+    }
+
+    public void setIdAbonnement(Integer idAbonnement) {
+        this.idAbonnement = idAbonnement;
+    }
+
     @Column(name = "mois")
     private Integer mois;
     @Column(name = "annee")
@@ -18,13 +27,30 @@ public class Abonnement {
     @Column(name = "tarif")
     private java.math.BigDecimal tarif;
 
-    public Abonnement() {}
-    public Integer getId_abonnement() { return id_abonnement; }
-    public void setId_abonnement(Integer id_abonnement) { this.id_abonnement = id_abonnement; }
-    public Integer getMois() { return mois; }
-    public void setMois(Integer mois) { this.mois = mois; }
-    public Integer getAnnee() { return annee; }
-    public void setAnnee(Integer annee) { this.annee = annee; }
-    public java.math.BigDecimal getTarif() { return tarif; }
-    public void setTarif(java.math.BigDecimal tarif) { this.tarif = tarif; }
+    public Abonnement() {
+    }
+
+    public Integer getMois() {
+        return mois;
+    }
+
+    public void setMois(Integer mois) {
+        this.mois = mois;
+    }
+
+    public Integer getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(Integer annee) {
+        this.annee = annee;
+    }
+
+    public java.math.BigDecimal getTarif() {
+        return tarif;
+    }
+
+    public void setTarif(java.math.BigDecimal tarif) {
+        this.tarif = tarif;
+    }
 }

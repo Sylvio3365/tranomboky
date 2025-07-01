@@ -10,7 +10,13 @@ public class Exemplaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_exemplaire")
-    private Integer id_exemplaire;
+    private Integer idExemplaire;
+    public Integer getIdExemplaire() {
+        return idExemplaire;
+    }
+    public void setIdExemplaire(Integer idExemplaire) {
+        this.idExemplaire = idExemplaire;
+    }
     @Column(name = "code")
     private String code;
     @Column(name = "id_livre")
@@ -19,8 +25,6 @@ public class Exemplaire {
     private java.time.LocalDateTime datedelete;
 
     public Exemplaire() {}
-    public Integer getId_exemplaire() { return id_exemplaire; }
-    public void setId_exemplaire(Integer id_exemplaire) { this.id_exemplaire = id_exemplaire; }
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
     public Integer getId_livre() { return id_livre; }
