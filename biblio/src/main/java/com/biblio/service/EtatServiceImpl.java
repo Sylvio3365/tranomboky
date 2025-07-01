@@ -14,20 +14,20 @@ public class EtatServiceImpl implements EtatService {
 
     public List<Etat> findAll() {
         return repo.findAll().stream()
-                .filter(e -> e.getDeleted_at() == null)
+                .filter(e -> e.getDatedelete() == null)
                 .toList();
     }
 
     public Etat findById(Integer id) {
         return repo.findById(id)
-                .filter(e -> e.getDeleted_at() == null)
+                .filter(e -> e.getDatedelete() == null)
                 .orElse(null);
     }
     public Etat save(Etat obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Etat obj = repo.findById(id).orElse(null);
         if(obj != null) {
-            obj.setDeleted_at(LocalDateTime.now());
+            obj.setDatedelete(LocalDateTime.now());
             repo.save(obj);
         }
     }

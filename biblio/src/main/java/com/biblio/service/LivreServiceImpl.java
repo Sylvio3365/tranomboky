@@ -14,20 +14,20 @@ public class LivreServiceImpl implements LivreService {
 
     public List<Livre> findAll() {
         return repo.findAll().stream()
-                .filter(l -> l.getDeleted_at() == null)
+                .filter(l -> l.getDatedelete() == null)
                 .toList();
     }
 
     public Livre findById(Integer id) {
         return repo.findById(id)
-                .filter(l -> l.getDeleted_at() == null)
+                .filter(l -> l.getDatedelete() == null)
                 .orElse(null);
     }
     public Livre save(Livre obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Livre obj = repo.findById(id).orElse(null);
         if(obj != null) {
-            obj.setDeleted_at(LocalDateTime.now());
+            obj.setDatedelete(LocalDateTime.now());
             repo.save(obj);
         }
     }

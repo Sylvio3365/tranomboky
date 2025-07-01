@@ -14,20 +14,20 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     public List<Utilisateur> findAll() {
         return repo.findAll().stream()
-                .filter(u -> u.getDeleted_at() == null)
+                .filter(u -> u.getDatedelete() == null)
                 .toList();
     }
 
     public Utilisateur findById(Integer id) {
         return repo.findById(id)
-                .filter(u -> u.getDeleted_at() == null)
+                .filter(u -> u.getDatedelete() == null)
                 .orElse(null);
     }
     public Utilisateur save(Utilisateur obj) { return repo.save(obj); }
     public void deleteById(Integer id) {
         Utilisateur obj = repo.findById(id).orElse(null);
         if(obj != null) {
-            obj.setDeleted_at(LocalDateTime.now());
+            obj.setDatedelete(LocalDateTime.now());
             repo.save(obj);
         }
     }

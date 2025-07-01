@@ -21,8 +21,8 @@ public class Regle {
     private Integer nb_prolongement_pret_max;
     @Column(name = "nb_jour_prolongement_max")
     private Integer nb_jour_prolongement_max;
-    @Column(name = "deleted_at")
-    private java.time.LocalDateTime deleted_at;
+    @Column(name = "datedelete")
+    private java.time.LocalDateTime datedelete;
 
     public Regle() {}
     public Integer getId_regle() { return id_regle; }
@@ -37,6 +37,6 @@ public class Regle {
     public void setNb_prolongement_pret_max(Integer nb_prolongement_pret_max) { this.nb_prolongement_pret_max = nb_prolongement_pret_max; }
     public Integer getNb_jour_prolongement_max() { return nb_jour_prolongement_max; }
     public void setNb_jour_prolongement_max(Integer nb_jour_prolongement_max) { this.nb_jour_prolongement_max = nb_jour_prolongement_max; }
-    public java.time.LocalDateTime getDeleted_at() { return deleted_at; }
-    public void setDeleted_at(java.time.LocalDateTime deleted_at) { this.deleted_at = deleted_at; }
+    public java.time.LocalDateTime getDatedelete() { return datedelete; }
+    public void setDatedelete(java.time.LocalDateTime datedelete) { this.datedelete = datedelete; }
 }

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
 
 public interface LivreRepository extends JpaRepository<Livre, Integer> {
-    List<Livre> findByDeletedAtIsNull();
-    Optional<Livre> findByIdLivreAndDeletedAtIsNull(Integer idLivre);
+    List<Livre> findByDatedeleteIsNull();
+    Optional<Livre> findByIdLivreAndDatedeleteIsNull(Integer idLivre);
 }
