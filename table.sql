@@ -1,250 +1,236 @@
-CREATE TABLE
-    Livre (
-        id_livre SERIAL PRIMARY KEY,
-        titre VARCHAR(100) NOT NULL,
-        auteur VARCHAR(100),
-        datedelete TIMESTAMP
-    );
+-- 1. LIVRES & EXEMPLAIRES
+CREATE TABLE Livre (
+    idLivre SERIAL PRIMARY KEY,
+    titre VARCHAR(100) NOT NULL,
+    auteur VARCHAR(100),
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Exemplaire (
-        id_exemplaire SERIAL PRIMARY KEY,
-        code VARCHAR(50) NOT NULL UNIQUE,
-        id_livre INT NOT NULL REFERENCES Livre (id_livre),
-        datedelete TIMESTAMP
-    );
+CREATE TABLE Exemplaire (
+    idExemplaire SERIAL PRIMARY KEY,
+    code VARCHAR(50) NOT NULL UNIQUE,
+    idLivre INT NOT NULL REFERENCES Livre (idLivre),
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Etat (
-        id_etat SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL UNIQUE,
-        datedelete TIMESTAMP
-    );
+-- 2. RESTRICTION D'ÂGE
+CREATE TABLE Restriction (
+    idRestriction SERIAL PRIMARY KEY,
+    ageMin INT NOT NULL,
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Restriction (
-        id_restriction SERIAL PRIMARY KEY,
-        age_min INT NOT NULL,
-        datedelete TIMESTAMP
-    );
+CREATE TABLE LivreRestriction (
+    idLivre INT NOT NULL,
+    idRestriction INT NOT NULL,
+    PRIMARY KEY (idLivre, idRestriction),
+    FOREIGN KEY (idLivre) REFERENCES Livre (idLivre),
+    FOREIGN KEY (idRestriction) REFERENCES Restriction (idRestriction)
+);
 
-CREATE TABLE
-    Regle (
-        id_regle SERIAL PRIMARY KEY,
-        description VARCHAR(100),
-        nb_jour_duree_pret_max INT NOT NULL,
-        nb_livre_preter_max INT NOT NULL,
-        nb_prolongement_pret_max INT NOT NULL,
-        nb_jour_prolongement_max INT NOT NULL,
-        datedelete TIMESTAMP
-    );
+-- 3. REGLES DE PRET
+CREATE TABLE Regle (
+    idRegle SERIAL PRIMARY KEY,
+    description VARCHAR(100),
+    nbJourDureePretMax INT NOT NULL,
+    nbLivrePreterMax INT NOT NULL,
+    nbProlongementPretMax INT NOT NULL,
+    nbJourProlongementMax INT NOT NULL,
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Profil (
-        id_profil SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL UNIQUE,
-        datedelete TIMESTAMP
-    );
+-- 4. TYPES DE PRET
+CREATE TABLE TypePret (
+    idTypePret SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL UNIQUE,
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Penalite (
-        id_penalite SERIAL PRIMARY KEY,
-        nb_jour_de_penalite INT NOT NULL,
-        motif VARCHAR(100),
-        datedelete TIMESTAMP
-    );
+CREATE TABLE ExemplaireTypePret (
+    idExemplaire INT NOT NULL,
+    idTypePret INT NOT NULL,
+    PRIMARY KEY (idExemplaire, idTypePret),
+    FOREIGN KEY (idExemplaire) REFERENCES Exemplaire (idExemplaire),
+    FOREIGN KEY (idTypePret) REFERENCES TypePret (idTypePret)
+);
 
-CREATE TABLE
-    TypePret (
-        id_type_pret SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL UNIQUE,
-        datedelete TIMESTAMP
-    );
+-- 5. ETAT DES EXEMPLAIRES
+CREATE TABLE Etat (
+    idEtat SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL UNIQUE,
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Role (
-        id_role SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL UNIQUE,
-        datedelete TIMESTAMP
-    );
+CREATE TABLE HistoriqueEtatExemplaire (
+    idHistorique SERIAL PRIMARY KEY,
+    dateModif TIMESTAMP NOT NULL,
+    idEtat INT NOT NULL REFERENCES Etat (idEtat),
+    idExemplaire INT NOT NULL REFERENCES Exemplaire (idExemplaire)
+);
 
-CREATE TABLE
-    Utilisateur (
-        id_utilisateur SERIAL PRIMARY KEY,
-        username VARCHAR(50) NOT NULL UNIQUE,
-        mdp VARCHAR(50) NOT NULL,
-        id_role INT NOT NULL REFERENCES Role (id_role),
-        datedelete TIMESTAMP
-    );
+-- 6. PROFILS, REGLES & PENALITES
+CREATE TABLE Profil (
+    idProfil SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL UNIQUE,
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Adherent (
-        id_adherent SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL,
-        prenom VARCHAR(50) NOT NULL,
-        date_de_naissance DATE NOT NULL,
-        id_profil INT NOT NULL REFERENCES Profil (id_profil),
-        id_utilisateur INT REFERENCES Utilisateur (id_utilisateur),
-        datedelete TIMESTAMP
-    );
+CREATE TABLE ProfilRegle (
+    idProfil INT NOT NULL,
+    idRegle INT NOT NULL,
+    PRIMARY KEY (idProfil, idRegle),
+    FOREIGN KEY (idProfil) REFERENCES Profil (idProfil),
+    FOREIGN KEY (idRegle) REFERENCES Regle (idRegle)
+);
 
--- (les autres tables restent inchangées, sauf si tu veux le soft delete aussi sur d'autres entités)
-CREATE TABLE
-    Statut (
-        id_statut SERIAL PRIMARY KEY,
-        nom VARCHAR(20) NOT NULL UNIQUE
-    );
+CREATE TABLE Penalite (
+    idPenalite SERIAL PRIMARY KEY,
+    nbJourDePenalite INT NOT NULL,
+    motif VARCHAR(100),
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Abonnement (
-        id_abonnement SERIAL PRIMARY KEY,
-        mois INT NOT NULL,
-        annee INT NOT NULL,
-        tarif NUMERIC(10, 2) NOT NULL
-    );
+CREATE TABLE ProfilPenalite (
+    idProfilPenalite SERIAL PRIMARY KEY,
+    dateModif TIMESTAMP NOT NULL,
+    idPenalite INT NOT NULL REFERENCES Penalite (idPenalite),
+    idProfil INT NOT NULL REFERENCES Profil (idProfil)
+);
 
-CREATE TABLE
-    Jour_Ferie (
-        id_jour_ferie SERIAL PRIMARY KEY,
-        description VARCHAR(100),
-        date_jf DATE NOT NULL UNIQUE
-    );
+-- 7. ROLES & UTILISATEURS
+CREATE TABLE Role (
+    idRole SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL UNIQUE,
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Statut_Global (
-        id_statut SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL UNIQUE
-    );
+CREATE TABLE Utilisateur (
+    idUtilisateur SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    mdp VARCHAR(50) NOT NULL,
+    idRole INT NOT NULL REFERENCES Role (idRole),
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Reservation (
-        id_reservation SERIAL PRIMARY KEY,
-        date_reservation TIMESTAMP NOT NULL,
-        date_debut TIMESTAMP,
-        date_fin TIMESTAMP,
-        id_adherent INT NOT NULL REFERENCES Adherent (id_adherent),
-        id_exemplaire INT NOT NULL REFERENCES Exemplaire (id_exemplaire)
-    );
+-- 8. ADHERENTS & ABONNEMENTS
+CREATE TABLE Adherent (
+    idAdherent SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    dateDeNaissance DATE NOT NULL,
+    idProfil INT NOT NULL REFERENCES Profil (idProfil),
+    idUtilisateur INT REFERENCES Utilisateur (idUtilisateur),
+    dateDelete TIMESTAMP
+);
 
-CREATE TABLE
-    Sanction (
-        id_sanction SERIAL PRIMARY KEY,
-        motif VARCHAR(100),
-        date_debut TIMESTAMP NOT NULL,
-        date_fin TIMESTAMP NOT NULL,
-        date_sanction TIMESTAMP NOT NULL,
-        id_adherent INT NOT NULL REFERENCES Adherent (id_adherent)
-    );
+CREATE TABLE Abonnement (
+    idAbonnement SERIAL PRIMARY KEY,
+    mois INT NOT NULL,
+    annee INT NOT NULL,
+    tarif NUMERIC(10,2) NOT NULL
+);
 
-CREATE TABLE
-    Regle_JF (
-        id_regle_jf SERIAL PRIMARY KEY,
-        comportement INT NOT NULL,
-        date_modif TIMESTAMP NOT NULL
-    );
+CREATE TABLE AdherentAbonnement (
+    idAdherent INT NOT NULL,
+    idAbonnement INT NOT NULL,
+    dateDePaiement TIMESTAMP NOT NULL,
+    PRIMARY KEY (idAdherent, idAbonnement),
+    FOREIGN KEY (idAdherent) REFERENCES Adherent (idAdherent),
+    FOREIGN KEY (idAbonnement) REFERENCES Abonnement (idAbonnement)
+);
 
-CREATE TABLE
-    Historique_Etat_Exemplaire (
-        id_historique SERIAL PRIMARY KEY,
-        date_modif TIMESTAMP NOT NULL,
-        id_etat INT NOT NULL REFERENCES Etat (id_etat),
-        id_exemplaire INT NOT NULL REFERENCES Exemplaire (id_exemplaire)
-    );
+-- 9. STATUTS
+CREATE TABLE Statut (
+    idStatut SERIAL PRIMARY KEY,
+    nom VARCHAR(20) NOT NULL UNIQUE
+);
 
-CREATE TABLE
-    Profil_Penalite (
-        id_profil_penalite SERIAL PRIMARY KEY,
-        date_modif TIMESTAMP NOT NULL,
-        id_penalite INT NOT NULL REFERENCES Penalite (id_penalite),
-        id_profil INT NOT NULL REFERENCES Profil (id_profil)
-    );
+CREATE TABLE StatutAdherent (
+    idStatutAdherent SERIAL PRIMARY KEY,
+    dateModif TIMESTAMP NOT NULL,
+    idStatut INT NOT NULL REFERENCES Statut (idStatut),
+    idAdherent INT NOT NULL REFERENCES Adherent (idAdherent)
+);
 
-CREATE TABLE
-    Pret (
-        id_pret SERIAL PRIMARY KEY,
-        date_debut TIMESTAMP NOT NULL,
-        date_fin TIMESTAMP NOT NULL,
-        id_type_pret INT NOT NULL REFERENCES TypePret (id_type_pret),
-        id_adherent INT NOT NULL REFERENCES Adherent (id_adherent),
-        id_exemplaire INT NOT NULL REFERENCES Exemplaire (id_exemplaire)
-    );
+-- 10. JOURS FÉRIÉS
+CREATE TABLE JourFerie (
+    idJourFerie SERIAL PRIMARY KEY,
+    description VARCHAR(100),
+    dateJf DATE NOT NULL UNIQUE
+);
 
-CREATE TABLE
-    Rendu (
-        id_rendu SERIAL PRIMARY KEY,
-        date_rendu TIMESTAMP NOT NULL,
-        id_pret INT NOT NULL UNIQUE REFERENCES Pret (id_pret)
-    );
+-- 11. PRET & RENDU
+CREATE TABLE Pret (
+    idPret SERIAL PRIMARY KEY,
+    dateDebut TIMESTAMP NOT NULL,
+    dateFin TIMESTAMP NOT NULL,
+    idTypePret INT NOT NULL REFERENCES TypePret (idTypePret),
+    idAdherent INT NOT NULL REFERENCES Adherent (idAdherent),
+    idExemplaire INT NOT NULL REFERENCES Exemplaire (idExemplaire)
+);
 
-CREATE TABLE
-    Statut_Adherent (
-        id_statut_adherent SERIAL PRIMARY KEY,
-        date_modif TIMESTAMP NOT NULL,
-        id_statut INT NOT NULL REFERENCES Statut (id_statut),
-        id_adherent INT NOT NULL REFERENCES Adherent (id_adherent)
-    );
+CREATE TABLE Rendu (
+    idRendu SERIAL PRIMARY KEY,
+    dateRendu TIMESTAMP NOT NULL,
+    idPret INT NOT NULL UNIQUE REFERENCES Pret (idPret)
+);
 
-CREATE TABLE
-    Historique_Statut_Reservation (
-        id_historique SERIAL PRIMARY KEY,
-        date_modif TIMESTAMP NOT NULL,
-        commentaire VARCHAR(255),
-        id_utilisateur INT NOT NULL REFERENCES Utilisateur (id_utilisateur),
-        id_statut INT NOT NULL REFERENCES Statut_Global (id_statut),
-        id_reservation INT NOT NULL REFERENCES Reservation (id_reservation)
-    );
+-- 12. STATUTS GLOBAUX & HISTORIQUES
+CREATE TABLE StatutGlobal (
+    idStatut SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL UNIQUE
+);
 
-CREATE TABLE
-    Prolongement (
-        id_prolongement SERIAL PRIMARY KEY,
-        nouvelle_date_fin TIMESTAMP NOT NULL,
-        date_prolongement TIMESTAMP NOT NULL,
-        id_pret INT NOT NULL REFERENCES Pret (id_pret)
-    );
+CREATE TABLE Reservation (
+    idReservation SERIAL PRIMARY KEY,
+    dateReservation TIMESTAMP NOT NULL,
+    dateDebut TIMESTAMP,
+    dateFin TIMESTAMP,
+    idAdherent INT NOT NULL REFERENCES Adherent (idAdherent),
+    idExemplaire INT NOT NULL REFERENCES Exemplaire (idExemplaire)
+);
 
-CREATE TABLE
-    Historique_Statut_Prolongement (
-        id_historique SERIAL PRIMARY KEY,
-        date_modif TIMESTAMP NOT NULL,
-        commentaire VARCHAR(255),
-        id_utilisateur INT NOT NULL REFERENCES Utilisateur (id_utilisateur),
-        id_statut INT NOT NULL REFERENCES Statut_Global (id_statut),
-        id_prolongement INT NOT NULL REFERENCES Prolongement (id_prolongement)
-    );
+CREATE TABLE HistoriqueStatutReservation (
+    idHistorique SERIAL PRIMARY KEY,
+    dateModif TIMESTAMP NOT NULL,
+    commentaire VARCHAR(255),
+    idUtilisateur INT NOT NULL REFERENCES Utilisateur (idUtilisateur),
+    idStatut INT NOT NULL REFERENCES StatutGlobal (idStatut),
+    idReservation INT NOT NULL REFERENCES Reservation (idReservation)
+);
 
-CREATE TABLE
-    Livre_Restriction (
-        id_livre INT NOT NULL,
-        id_restriction INT NOT NULL,
-        PRIMARY KEY (id_livre, id_restriction),
-        FOREIGN KEY (id_livre) REFERENCES Livre (id_livre),
-        FOREIGN KEY (id_restriction) REFERENCES Restriction (id_restriction)
-    );
+-- 13. PROLONGEMENTS & HISTORIQUES
+CREATE TABLE Prolongement (
+    idProlongement SERIAL PRIMARY KEY,
+    nouvelleDateFin TIMESTAMP NOT NULL,
+    dateProlongement TIMESTAMP NOT NULL,
+    idPret INT NOT NULL REFERENCES Pret (idPret)
+);
 
-CREATE TABLE
-    Profil_Regle (
-        id_profil INT NOT NULL,
-        id_regle INT NOT NULL,
-        PRIMARY KEY (id_profil, id_regle),
-        FOREIGN KEY (id_profil) REFERENCES Profil (id_profil),
-        FOREIGN KEY (id_regle) REFERENCES Regle (id_regle)
-    );
+CREATE TABLE HistoriqueStatutProlongement (
+    idHistorique SERIAL PRIMARY KEY,
+    dateModif TIMESTAMP NOT NULL,
+    commentaire VARCHAR(255),
+    idUtilisateur INT NOT NULL REFERENCES Utilisateur (idUtilisateur),
+    idStatut INT NOT NULL REFERENCES StatutGlobal (idStatut),
+    idProlongement INT NOT NULL REFERENCES Prolongement (idProlongement)
+);
 
-CREATE TABLE
-    Adherent_Abonnement (
-        id_adherent INT NOT NULL,
-        id_abonnement INT NOT NULL,
-        date_de_paiement TIMESTAMP NOT NULL,
-        PRIMARY KEY (id_adherent, id_abonnement),
-        FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent),
-        FOREIGN KEY (id_abonnement) REFERENCES Abonnement (id_abonnement)
-    );
+-- 14. SANCTION
+CREATE TABLE Sanction (
+    idSanction SERIAL PRIMARY KEY,
+    motif VARCHAR(100),
+    dateDebut TIMESTAMP NOT NULL,
+    dateFin TIMESTAMP NOT NULL,
+    dateSanction TIMESTAMP NOT NULL,
+    idAdherent INT NOT NULL REFERENCES Adherent (idAdherent)
+);
 
-CREATE TABLE
-    Exemplaire_TypePret (
-        id_exemplaire INT NOT NULL,
-        id_type_pret INT NOT NULL,
-        PRIMARY KEY (id_exemplaire, id_type_pret),
-        FOREIGN KEY (id_exemplaire) REFERENCES Exemplaire (id_exemplaire),
-        FOREIGN KEY (id_type_pret) REFERENCES TypePret (id_type_pret)
-    );
+-- 15. REGLE JF
+CREATE TABLE RegleJf (
+    idRegleJf SERIAL PRIMARY KEY,
+    comportement INT NOT NULL,
+    dateModif TIMESTAMP NOT NULL
+);
+
+-- -- FIN DE LA PARTIE STRUCTURE --
