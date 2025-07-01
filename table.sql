@@ -2,26 +2,30 @@ CREATE TABLE
     Livre (
         id_livre SERIAL PRIMARY KEY,
         titre VARCHAR(100) NOT NULL,
-        auteur VARCHAR(100)
+        auteur VARCHAR(100),
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
     Exemplaire (
         id_exemplaire SERIAL PRIMARY KEY,
         code VARCHAR(50) NOT NULL UNIQUE,
-        id_livre INT NOT NULL REFERENCES Livre (id_livre)
+        id_livre INT NOT NULL REFERENCES Livre (id_livre),
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
     Etat (
         id_etat SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL UNIQUE
+        nom VARCHAR(50) NOT NULL UNIQUE,
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
     Restriction (
         id_restriction SERIAL PRIMARY KEY,
-        age_min INT NOT NULL
+        age_min INT NOT NULL,
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
@@ -31,32 +35,37 @@ CREATE TABLE
         nb_jour_duree_pret_max INT NOT NULL,
         nb_livre_preter_max INT NOT NULL,
         nb_prolongement_pret_max INT NOT NULL,
-        nb_jour_prolongement_max INT NOT NULL
+        nb_jour_prolongement_max INT NOT NULL,
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
     Profil (
         id_profil SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL UNIQUE
+        nom VARCHAR(50) NOT NULL UNIQUE,
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
     Penalite (
         id_penalite SERIAL PRIMARY KEY,
         nb_jour_de_penalite INT NOT NULL,
-        motif VARCHAR(100)
+        motif VARCHAR(100),
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
     TypePret (
         id_type_pret SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL UNIQUE
+        nom VARCHAR(50) NOT NULL UNIQUE,
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
     Role (
         id_role SERIAL PRIMARY KEY,
-        nom VARCHAR(50) NOT NULL UNIQUE
+        nom VARCHAR(50) NOT NULL UNIQUE,
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
@@ -64,7 +73,8 @@ CREATE TABLE
         id_utilisateur SERIAL PRIMARY KEY,
         username VARCHAR(50) NOT NULL UNIQUE,
         mdp VARCHAR(50) NOT NULL,
-        id_role INT NOT NULL REFERENCES Role (id_role)
+        id_role INT NOT NULL REFERENCES Role (id_role),
+        deleted_at TIMESTAMP
     );
 
 CREATE TABLE
@@ -74,9 +84,11 @@ CREATE TABLE
         prenom VARCHAR(50) NOT NULL,
         date_de_naissance DATE NOT NULL,
         id_profil INT NOT NULL REFERENCES Profil (id_profil),
-        id_utilisateur INT REFERENCES Utilisateur (id_utilisateur)
+        id_utilisateur INT REFERENCES Utilisateur (id_utilisateur),
+        deleted_at TIMESTAMP
     );
 
+-- (les autres tables restent inchangées, sauf si tu veux le soft delete aussi sur d'autres entités)
 CREATE TABLE
     Statut (
         id_statut SERIAL PRIMARY KEY,
