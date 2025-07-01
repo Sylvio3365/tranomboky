@@ -41,15 +41,7 @@ CREATE TABLE
         nb_jour_prolongement_max INT NOT NULL
     );
 
-CREATE TABLE
-    Livre_Regle (
-        id_livre INT NOT NULL,
-        id_regle INT NOT NULL,
-        PRIMARY KEY (id_livre, id_regle),
-        CONSTRAINT fk_livre_regle_livre FOREIGN KEY (id_livre) REFERENCES Livre (id_livre),
-        CONSTRAINT fk_livre_regle_regle FOREIGN KEY (id_regle) REFERENCES Regle (id_regle)
-    );
-
+-- (Table Livre_Regle SUPPRIMÉE)
 -- TYPE DE PRET
 CREATE TABLE
     TypePret (
@@ -144,14 +136,22 @@ CREATE TABLE
         CONSTRAINT fk_adh_profil FOREIGN KEY (id_profil) REFERENCES Profil (id_profil)
     );
 
--- STATUT DE L'ADHERENT (historique)
+-- TABLE DE REFERENCE DES STATUTS (NOUVEAU)
+CREATE TABLE
+    Statut (
+        id_statut SERIAL PRIMARY KEY,
+        nom VARCHAR(20) NOT NULL UNIQUE -- Ex : 'actif', 'inactif', 'suspendu'
+    );
+
+-- HISTORIQUE DU STATUT DE L'ADHERENT (MODIFIÉ)
 CREATE TABLE
     Statut_Adherent (
         id_statut_adherent SERIAL PRIMARY KEY,
         id_adherent INT NOT NULL,
-        statut VARCHAR(20) NOT NULL, -- Ex : 'actif', 'inactif', 'suspendu'
+        id_statut INT NOT NULL,
         date_modif TIMESTAMP NOT NULL,
-        CONSTRAINT fk_sa_adherent FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent)
+        CONSTRAINT fk_sa_adherent FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent),
+        CONSTRAINT fk_sa_statut FOREIGN KEY (id_statut) REFERENCES Statut (id_statut)
     );
 
 -- ABONNEMENTS
@@ -269,17 +269,4 @@ CREATE TABLE
         date_fin TIMESTAMP NOT NULL,
         date_sanction TIMESTAMP NOT NULL,
         CONSTRAINT fk_sanction_adherent FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent)
-    );
-
-CREATE TABLE
-    Historique_Statut_Sanction (
-        id_historique SERIAL PRIMARY KEY,
-        id_sanction INT NOT NULL,
-        id_statut INT NOT NULL,
-        date_modif TIMESTAMP NOT NULL,
-        id_utilisateur INT NOT NULL,
-        commentaire VARCHAR(255),
-        CONSTRAINT fk_hss_sanction FOREIGN KEY (id_sanction) REFERENCES Sanction (id_sanction),
-        CONSTRAINT fk_hss_statut FOREIGN KEY (id_statut) REFERENCES Statut_Global (id_statut),
-        CONSTRAINT fk_hss_utilisateur FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur (id_utilisateur)
     );
