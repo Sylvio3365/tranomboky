@@ -6,5 +6,5 @@ import java.util.*;
 
 public interface RestrictionRepository extends JpaRepository<Restriction, Integer> {
     List<Restriction> findByDatedeleteIsNull();
-    Optional<Restriction> findByIdRestrictionAndDatedeleteIsNull(Integer idRestriction);
+    Optional<Restriction> findById_restrictionAndDatedeleteIsNull(Integer id_restriction);
 }

@@ -6,5 +6,5 @@ import java.util.*;
 
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
     List<Utilisateur> findByDatedeleteIsNull();
-    Optional<Utilisateur> findByIdUtilisateurAndDatedeleteIsNull(Integer idUtilisateur);
+    Optional<Utilisateur> findById_utilisateurAndDatedeleteIsNull(Integer id_utilisateur);
 }
